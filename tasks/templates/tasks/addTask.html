@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}Adicione uma tarefa{% endblock %}
+{% block content %}
+    <div class="offset-1 col-10 list-div">
+        <h1>Adicione a sua nova tarefa</h1>
+        <form method="POST">
+            {% csrf_token %}                     {# tag obrigatória -protege o site, django n aceita request sem esse token #}
+            {{ form.as_p }}                    {# tag do django imprime os forms definidos em forms.py envolvidos por paragráfos- blocos#}
+            <input type="submit" class="btn-success" value="Criar tarefa">
+        </form>
+    </div>
+{%  endblock %}

@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{#tag no django é template tag#}
+
+{% block title %}Qual é o seu nome?{% endblock %}
+
+{% block content %}
+    <p>
+        <h1>
+            O seu nome é {{  name }}
+        </h1>
+    </p>
+{% endblock %}
