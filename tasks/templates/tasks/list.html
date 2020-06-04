@@ -3,14 +3,14 @@
 {% block content %}
     <div class="offset-1 col-10 list-div">
         <h1>Lista de tarefas</h1>
-        <a id="add-link" href="newTask/">                  {# tag de âncora para deixar o botão funcional #}
+        <a id="add-link" href="newTask/">                  <!-- tag de âncora para deixar o botão funcional -->
             <div class="col-2 add-div">
                 <i class="fas fa-plus"></i> Adicionar tarefa
             </div>
         </a>
         <div class="col-9 search-div">
-            <form method="GET" id="search-form">
-                <input class="form-control" type="text" id="search" name="search" placeholder="Digite o nome da tarefa para buscar">
+            <form method="GET" id="search-form">             <!-- GET = utilizado em buscas -->
+                <input class="form-control" type="text" id="search" name="search" placeholder="Digite o nome da tarefa para buscar" value="{{ request.GET.search }}">  <!-- placeholder = input -->
                 <i class="fas fa-search" id="search-btn"></i>
             </form>
         </div>
@@ -33,15 +33,17 @@
         <div class="pagination">
             <span class="step-links">
 
-                {% if tasks.has_previous %}                                 {# verifica se está na pág 1 = não precisa de botão para voltar na páginação #}
+                {% if tasks.has_previous %}                                 <!-- verifica se está na pág 1 = não precisa de botão para voltar na páginação -->
                     <a href="?page={{ tasks.previous_page_number }}"><i class="fas fa-arrow-left"></i></a>
                 {% endif %}
 
-                <span class="current">                                              {# pág do usuário atual #}
-                    {{ tasks.number }} de {{ tasks.paginator.num_pages }}           {# pág atual DE pág máx #}
+                {% if tasks.paginator.num_pages%}
+                <span class="current">                                              <!-- pág do usuário atual -->
+                    {{ tasks.number }} de {{ tasks.paginator.num_pages }}           <!-- pág atual DE pág máx -->
                 </span>
+                {% endif %}
 
-                {% if tasks.has_next %}                      {# verifica se está na pág 1 = não precisa de botão para voltar na páginação #}
+                {% if tasks.has_next %}                      <!-- verifica se está na pág 1 = não precisa de botão para voltar na páginação -->
                     <a href="?page={{ tasks.next_page_number }}"><i class="fas fa-arrow-right"></i></a>
                 {% endif %}
 

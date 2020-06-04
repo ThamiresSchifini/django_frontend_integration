@@ -1,4 +1,4 @@
-$(document).ready(function() {
+    $(document).ready(function() {
 
      var deleteBtn = $('.delete-btn');                          // seleciona o elemento no jquery
      var searchBtn = $('#search-btn');                           // lupa
@@ -14,7 +14,7 @@ $(document).ready(function() {
             console.log('funcionou')
         }
      });
-
-
-
+    $(searchBtn).on('click', function() {
+        searchForm.submit();
+    });
 });

@@ -1,11 +1,12 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
 {% block title %}Editando '{{ task.title }}'{% endblock %}
 {% block content %}
     <div class="offset-1 col-10 list-div">
         <h1>Editando '{{ task.title }}'</h1>
         <form method="POST">
-            {% csrf_token %}                     {# tag obrigatória -protege o site, django n aceita request sem esse token #}
-            {{ form.as_p }}                    {# tag do django imprime os forms definidos em forms.py envolvidos por paragráfos- blocos#}
+            {% csrf_token %}                      <!-- tag obrigatória -protege o site, django n aceita request sem esse token -->
+            {{ form|crispy }}                     <!-- tag do django imprime os forms definidos em forms.py envolvidos por paragráfos- blocos -->
             <input type="submit" class="btn-success" value="Editar tarefa">
         </form>
     </div>

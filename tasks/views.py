@@ -1,5 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
 from .models import Task
 from .forms import TaskForm
 from django.contrib import messages
@@ -12,17 +13,27 @@ from django.core.paginator import Paginator
 def hello_world(request):
     return HttpResponse('hello');
 
+@login_required
 def task_list(request):
-    tasks_list = Task.objects.all().order_by('-created_at')                     # o conteúdo dessa variável vai pro front
-    paginator = Paginator(tasks_list, 3)                                         # recebe a lista e nº da página
-    page = request.GET.get('page')                                                     # argumento do request automático que vem junto na url
-    tasks = paginator.get_page(page)                                                # exibe o numero correto da página na página que ele tá
-    return render(request, 'tasks/list.html', {'tasks': tasks});             # no dict: nome da variável no front e valor que ela recebe
+    search = request.GET.get('search')
+    if search:
 
+        tasks = Task.objects.filter(title__icontains=search, user=request.user)                     # filtrar pelo conteudo do search que tiver no titulo. icontains = buscar e ignorar o case sensitive
+
+    else:
+
+        tasks_list = Task.objects.all().order_by('-created_at').filter(user=request.user)                     # o conteúdo dessa variável vai pro front
+        paginator = Paginator(tasks_list, 3)                                         # recebe a lista e nº da página
+        page = request.GET.get('page')                                                     # argumento do request automático que vem junto na url
+        tasks = paginator.get_page(page)                                                # exibe o numero correto da página na página que ele tá
+    return render(request, 'tasks/list.html', {'tasks': tasks});                   # no dict: nome da variável no front e valor que ela recebe
+
+@login_required
 def taskView(request, id):
     task = get_object_or_404(Task, pk=id)
     return render(request, 'tasks/task.html', {'task': task});
 
+@login_required
 def new_task(request):
     if request.method == 'POST':
         form = TaskForm(request.POST)
@@ -37,6 +48,7 @@ def new_task(request):
         form = TaskForm()
         return render(request, 'tasks/addTask.html', {'form': form})
 
+@login_required
 def edit_task(request, id):                         # usar id para achar a TASK
     task = get_object_or_404(Task, pk=id)
     form = TaskForm(instance=task)                  # instance = deixar o form pré populado e mostrar pro usuário
@@ -52,6 +64,7 @@ def edit_task(request, id):                         # usar id para achar a TASK
     else:
         return render(request, 'tasks/editTask.html', {'form': form, 'task': task})
 
+@login_required
 def delete_task(request, id):
     task = get_object_or_404(Task, pk=id)
     task.delete()

@@ -2,6 +2,9 @@
     padding: 0
 }
 
+.container-fluid .row {
+    margin: 0;
+}
     /*Navbar*/
 
 .navbar {
@@ -50,6 +53,7 @@
     position: absolute;
     top: 12px;
     right: 26px;
+    cursor: pointer;
 }
 
 .search-div {
@@ -130,4 +134,15 @@ ul.messages li {
 .step-links .current {
     margin-left: 5px;                                           /*espaçamento pras setinhas de páginação*/
     margin-right: 5px;
+}
+
+    /*Login*/
+
+.auth-card {
+    margin-bottom: 30px;
+}
+
+.change-form-p {
+    margin-top: 30px;
+    text-align: center;
 }
